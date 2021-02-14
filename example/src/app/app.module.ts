@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { KeycloakAngularModule, KEYCLOAK_INSTANCE } from 'keycloak-angular';
+import { KEYCLOAK_INSTANCE } from 'keycloak-angular';
 import Keycloak, { KeycloakInstance } from 'keycloak-js';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,20 +20,19 @@ function initializeKeycloak(keycloak: KeycloakInstance) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
-    KeycloakAngularModule,
   ],
   providers: [
     { provide: KEYCLOAK_INSTANCE, useValue: keycloak },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
-      multi: true,
       deps: [KEYCLOAK_INSTANCE],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent]

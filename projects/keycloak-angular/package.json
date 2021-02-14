@@ -2,8 +2,9 @@
   "name": "keycloak-angular",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^11.2.0",
-    "@angular/core": "^11.2.0"
+    "@angular/common": "^10 || ^11",
+    "@angular/core": "^10 || ^11",
+    "keycloak-js": "^10 || ^11 || ^12"
   },
   "dependencies": {
     "tslib": "^2.0.0"
