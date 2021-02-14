@@ -8,6 +8,12 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "keycloak-angular": [
+        "dist/keycloak-angular/keycloak-angular",
+        "dist/keycloak-angular"
+      ]
+    },
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
