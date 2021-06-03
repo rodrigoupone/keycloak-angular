@@ -22,6 +22,7 @@ import {
   KeycloakOptions,
 } from '../interfaces/keycloak-options';
 import { KeycloakEvent, KeycloakEventType } from '../interfaces/keycloak-event';
+import { toPromise } from '../utils/to-promise';
 
 /**
  * Service to expose existent methods from the Keycloak JS adapter, adding new
@@ -212,7 +213,7 @@ export class KeycloakService {
     this._instance = Keycloak(config);
     this.bindsKeycloakEvents();
 
-    const authenticated = await this._instance.init(initOptions);
+    const authenticated = await toPromise(this._instance.init(initOptions));
 
     if (authenticated && this._loadUserProfileAtStartUp) {
       await this.loadUserProfile();
@@ -243,7 +244,7 @@ export class KeycloakService {
    * A void Promise if the login is successful and after the user profile loading.
    */
   public async login(options: Keycloak.KeycloakLoginOptions = {}) {
-    await this._instance.login(options);
+    await toPromise(this._instance.login(options));
 
     if (this._loadUserProfileAtStartUp) {
       await this.loadUserProfile();
@@ -263,7 +264,7 @@ export class KeycloakService {
       redirectUri,
     };
 
-    await this._instance.logout(options);
+    await toPromise(this._instance.logout(options));
     this._userProfile = undefined;
   }
 
@@ -280,7 +281,7 @@ export class KeycloakService {
   public async register(
     options: Keycloak.KeycloakLoginOptions = { action: 'register' }
   ) {
-    await this._instance.register(options);
+    await toPromise(this._instance.register(options));
   }
 
   /**
@@ -390,7 +391,7 @@ export class KeycloakService {
       throw new Error('Keycloak Angular library is not initialized.');
     }
 
-    return this._instance.updateToken(minValidity);
+    return toPromise(this._instance.updateToken(minValidity));
   }
 
   /**
@@ -414,7 +415,9 @@ export class KeycloakService {
       );
     }
 
-    return this._userProfile = await this._instance.loadUserProfile();
+    return (this._userProfile = await toPromise(
+      this._instance.loadUserProfile()
+    ));
   }
 
   /**
